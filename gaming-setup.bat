@@ -4,15 +4,19 @@ setlocal enabledelayedexpansion
 :: Gaming Platforms Setup Script
 :: Handles installation of popular gaming platforms
 
-:: Check for admin rights and auto-elevate if needed
-net session >nul 2>&1
-if %errorlevel% neq 0 (
-    echo Requesting administrator privileges...
-    echo.
-    
-    :: Re-launch the script with admin rights
-    powershell -Command "Start-Process -FilePath '%~f0' -Verb RunAs"
-    exit /b 0
+:: Check for admin rights and auto-elevate if needed (skip if called from elevated setup.bat)
+if /i "%1"=="ALREADY_ELEVATED" (
+    echo Running in already-elevated context...
+) else (
+    net session >nul 2>&1
+    if %errorlevel% neq 0 (
+        echo Requesting administrator privileges...
+        echo.
+        
+        :: Re-launch the script with admin rights
+        powershell -Command "Start-Process -FilePath '%~f0' -Verb RunAs"
+        exit /b 0
+    )
 )
 
 :MENU
