@@ -1,10 +1,29 @@
 @echo off
 setlocal enabledelayedexpansion
 
+:: ============================================================================
 :: Windows Setup Script - Unified Gaming and System Update
-:: Handles Windows updates and gaming platform installations
+:: ============================================================================
+:: SAFE & OPEN-SOURCE SCRIPT - May trigger antivirus false positives
+:: 
+:: This script automates Windows updates and gaming platform installations.
+:: It is completely safe and transparent. All code is visible and reviewable.
+::
+:: Why antivirus may flag this:
+:: - Requests administrator privileges (needed for installations)
+:: - Downloads executable files from official vendor websites
+:: - Uses PowerShell for automation (standard Windows practice)
+::
+:: What this script does:
+:: - Downloads official installers from verified vendor CDNs
+:: - Installs PSWindowsUpdate module from Microsoft PowerShell Gallery
+:: - No data collection, no telemetry, no malicious behavior
+::
+:: For detailed security information, see SECURITY.md
+:: ============================================================================
 
 :: Check for admin rights and auto-elevate if needed
+:: This is required for installing software and Windows updates
 net session >nul 2>&1
 if %errorlevel% neq 0 (
     echo Requesting administrator privileges...
@@ -18,7 +37,14 @@ if %errorlevel% neq 0 (
 :MENU
 cls
 echo ============================================
-echo      Windows Setup Script
+echo      Windows Setup Script v1.0
+echo      SAFE ^& OPEN-SOURCE
+echo ============================================
+echo.
+echo This script downloads official installers
+echo from verified vendor websites only.
+echo See SECURITY.md for safety information.
+echo.
 echo ============================================
 echo.
 echo SYSTEM UPDATES:
@@ -57,6 +83,9 @@ cls
 echo ============================================
 echo         Windows Update
 echo ============================================
+echo.
+echo This feature uses the PSWindowsUpdate module from
+echo Microsoft PowerShell Gallery (official source).
 echo.
 echo Starting Windows Update...
 echo.
@@ -133,7 +162,9 @@ echo.
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
 
-echo Downloading Steam installer...
+echo Downloading Steam installer from official Valve CDN...
+echo Source: cdn.cloudflare.steamstatic.com
+echo.
 powershell -Command "& {$url='https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe'; $output='%TEMP_DIR%\SteamSetup.exe'; Write-Host ''; $wc=New-Object System.Net.WebClient; $wc.DownloadProgressChanged={param($s,$e) Write-Progress -Activity 'Downloading Steam' -Status ('{0:N0} KB / {1:N0} KB' -f ($e.BytesReceived/1KB),($e.TotalBytesToReceive/1KB)) -PercentComplete $e.ProgressPercentage}; $wc.DownloadFileCompleted={param($s,$e) Write-Progress -Activity 'Downloading Steam' -Completed}; $wc.DownloadFileAsync($url,$output); while($wc.IsBusy){Start-Sleep -Milliseconds 100}; Write-Host 'Download complete!' -ForegroundColor Green}"
 
 if exist "%TEMP_DIR%\SteamSetup.exe" (
@@ -159,7 +190,9 @@ echo.
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
 
-echo Downloading Ubisoft Connect installer...
+echo Downloading Ubisoft Connect installer from official Ubisoft CDN...
+echo Source: ubistatic3-a.akamaihd.net
+echo.
 powershell -Command "& {$url='https://ubistatic3-a.akamaihd.net/orbit/launcher_installer/UbisoftConnectInstaller.exe'; $output='%TEMP_DIR%\UbisoftConnectInstaller.exe'; Write-Host ''; $wc=New-Object System.Net.WebClient; $wc.DownloadProgressChanged={param($s,$e) Write-Progress -Activity 'Downloading Ubisoft Connect' -Status ('{0:N0} KB / {1:N0} KB' -f ($e.BytesReceived/1KB),($e.TotalBytesToReceive/1KB)) -PercentComplete $e.ProgressPercentage}; $wc.DownloadFileCompleted={param($s,$e) Write-Progress -Activity 'Downloading Ubisoft Connect' -Completed}; $wc.DownloadFileAsync($url,$output); while($wc.IsBusy){Start-Sleep -Milliseconds 100}; Write-Host 'Download complete!' -ForegroundColor Green}"
 
 if exist "%TEMP_DIR%\UbisoftConnectInstaller.exe" (
@@ -185,7 +218,9 @@ echo.
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
 
-echo Downloading GOG Galaxy installer...
+echo Downloading GOG Galaxy installer from official GOG CDN...
+echo Source: webinstallers.gog-statics.com
+echo.
 powershell -Command "& {$url='https://webinstallers.gog-statics.com/download/GOG_Galaxy_2.0.exe'; $output='%TEMP_DIR%\GOGGalaxySetup.exe'; Write-Host ''; $wc=New-Object System.Net.WebClient; $wc.DownloadProgressChanged={param($s,$e) Write-Progress -Activity 'Downloading GOG Galaxy' -Status ('{0:N0} KB / {1:N0} KB' -f ($e.BytesReceived/1KB),($e.TotalBytesToReceive/1KB)) -PercentComplete $e.ProgressPercentage}; $wc.DownloadFileCompleted={param($s,$e) Write-Progress -Activity 'Downloading GOG Galaxy' -Completed}; $wc.DownloadFileAsync($url,$output); while($wc.IsBusy){Start-Sleep -Milliseconds 100}; Write-Host 'Download complete!' -ForegroundColor Green}"
 
 if exist "%TEMP_DIR%\GOGGalaxySetup.exe" (
@@ -211,7 +246,9 @@ echo.
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
 
-echo Downloading Epic Games Launcher installer...
+echo Downloading Epic Games Launcher installer from official Epic CDN...
+echo Source: launcher-public-service-prod06.ol.epicgames.com
+echo.
 powershell -Command "& {$url='https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi'; $output='%TEMP_DIR%\EpicGamesLauncherInstaller.msi'; Write-Host ''; $wc=New-Object System.Net.WebClient; $wc.DownloadProgressChanged={param($s,$e) Write-Progress -Activity 'Downloading Epic Games Launcher' -Status ('{0:N0} KB / {1:N0} KB' -f ($e.BytesReceived/1KB),($e.TotalBytesToReceive/1KB)) -PercentComplete $e.ProgressPercentage}; $wc.DownloadFileCompleted={param($s,$e) Write-Progress -Activity 'Downloading Epic Games Launcher' -Completed}; $wc.DownloadFileAsync($url,$output); while($wc.IsBusy){Start-Sleep -Milliseconds 100}; Write-Host 'Download complete!' -ForegroundColor Green}"
 
 if exist "%TEMP_DIR%\EpicGamesLauncherInstaller.msi" (
@@ -237,7 +274,9 @@ echo.
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
 
-echo Downloading Battle.net installer...
+echo Downloading Battle.net installer from official Blizzard CDN...
+echo Source: downloader.battle.net
+echo.
 powershell -Command "& {$url='https://downloader.battle.net/download/getInstallerForGame?os=win&gameProgram=BATTLENET_APP&version=Live'; $output='%TEMP_DIR%\BattleNetSetup.exe'; Write-Host ''; $wc=New-Object System.Net.WebClient; $wc.DownloadProgressChanged={param($s,$e) Write-Progress -Activity 'Downloading Battle.net' -Status ('{0:N0} KB / {1:N0} KB' -f ($e.BytesReceived/1KB),($e.TotalBytesToReceive/1KB)) -PercentComplete $e.ProgressPercentage}; $wc.DownloadFileCompleted={param($s,$e) Write-Progress -Activity 'Downloading Battle.net' -Completed}; $wc.DownloadFileAsync($url,$output); while($wc.IsBusy){Start-Sleep -Milliseconds 100}; Write-Host 'Download complete!' -ForegroundColor Green}"
 
 if exist "%TEMP_DIR%\BattleNetSetup.exe" (
@@ -263,7 +302,9 @@ echo.
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
 
-echo Downloading EA App installer...
+echo Downloading EA App installer from official EA CDN...
+echo Source: origin-a.akamaihd.net
+echo.
 powershell -Command "& {$url='https://origin-a.akamaihd.net/EA-Desktop-Client-Download/installer-releases/EAappInstaller.exe'; $output='%TEMP_DIR%\EAappInstaller.exe'; Write-Host ''; $wc=New-Object System.Net.WebClient; $wc.DownloadProgressChanged={param($s,$e) Write-Progress -Activity 'Downloading EA App' -Status ('{0:N0} KB / {1:N0} KB' -f ($e.BytesReceived/1KB),($e.TotalBytesToReceive/1KB)) -PercentComplete $e.ProgressPercentage}; $wc.DownloadFileCompleted={param($s,$e) Write-Progress -Activity 'Downloading EA App' -Completed}; $wc.DownloadFileAsync($url,$output); while($wc.IsBusy){Start-Sleep -Milliseconds 100}; Write-Host 'Download complete!' -ForegroundColor Green}"
 
 if exist "%TEMP_DIR%\EAappInstaller.exe" (

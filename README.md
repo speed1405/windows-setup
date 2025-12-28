@@ -20,6 +20,28 @@ A unified batch script for Windows that provides automated Windows updates and g
 
 - **`setup.bat`** - Unified script containing Windows Update and Gaming Platform installation options
 
+## ⚠️ Important: Antivirus False Positives
+
+**This script may be flagged by some antivirus software as a false positive.** This is a common issue with automation scripts that:
+- Request administrator privileges
+- Download executable files
+- Use PowerShell for automation
+
+**The script is completely safe and open-source.** All code is transparent and visible in this repository. It only downloads official installers from verified vendor websites (Steam, Ubisoft, GOG, Epic Games, Battle.net, EA).
+
+**For detailed information about why this happens and how to verify the script's safety**, please read [SECURITY.md](SECURITY.md).
+
+### Quick Safety Verification
+✅ **Open Source**: All code is visible and reviewable  
+✅ **Official Sources**: Downloads only from vendor CDNs  
+✅ **No Data Collection**: No telemetry or data transmission  
+✅ **User Control**: Interactive menu with confirmation prompts  
+
+If your antivirus blocks the script, you can:
+1. Review the source code yourself
+2. Add an exception for this script in your antivirus
+3. Submit to [VirusTotal](https://www.virustotal.com) for multi-engine analysis
+
 ## Requirements
 
 - Windows 10 or later
@@ -80,7 +102,7 @@ GAMING PLATFORMS:
 - Gaming platform installers will open and require user interaction to complete
 - Windows Updates may require a system restart
 - Internet connection is required for all downloads
-- Some antivirus software may flag downloads - these are official installers from vendors
+- **Antivirus Warning**: Some antivirus software may flag this script or downloaded installers as suspicious. This is a **false positive**. All installers are downloaded directly from official vendor websites. See [SECURITY.md](SECURITY.md) for detailed information about why this happens and how to verify safety.
 
 ## License
 
