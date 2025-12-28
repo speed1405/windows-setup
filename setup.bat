@@ -4,6 +4,17 @@ setlocal enabledelayedexpansion
 :: Windows Setup Script - Main Launcher
 :: Launches Windows Update or Gaming Platform installation scripts
 
+:: Check for admin rights and auto-elevate if needed
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Requesting administrator privileges...
+    echo.
+    
+    :: Re-launch the script with admin rights
+    powershell -Command "Start-Process -FilePath '%~f0' -Verb RunAs"
+    exit /b 0
+)
+
 :MENU
 cls
 echo ============================================

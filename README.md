@@ -26,7 +26,7 @@ A comprehensive set of batch scripts for Windows that provides automated Windows
 
 - Windows 10 or later
 - Internet connection for downloading installers
-- Administrator privileges (required for Windows Updates only)
+- Administrator privileges will be automatically requested when needed
 
 ## Usage
 
@@ -34,12 +34,12 @@ A comprehensive set of batch scripts for Windows that provides automated Windows
 1. Download all three files: `setup.bat`, `windows-update.bat`, and `gaming-setup.bat`
 2. Place them in the same directory
 3. Run `setup.bat`:
-   - Simply double-click `setup.bat`
+   - Simply double-click `setup.bat` (will automatically request admin privileges)
    - Choose option 1 for Windows Updates or option 2 for Gaming Platforms
 
 ### Option 2: Running Scripts Directly
-- **For Windows Updates**: Right-click `windows-update.bat` and select "Run as administrator"
-- **For Gaming Platforms**: Double-click `gaming-setup.bat` (no admin required)
+- **For Windows Updates**: Double-click `windows-update.bat` (will automatically request admin privileges)
+- **For Gaming Platforms**: Double-click `gaming-setup.bat` (will automatically request admin privileges)
 
 ## Menu Options
 
@@ -91,6 +91,7 @@ A comprehensive set of batch scripts for Windows that provides automated Windows
 
 ## Notes
 
+- All scripts automatically request administrator privileges when needed
 - Scripts can be run independently or through the main launcher
 - Gaming platform installers will open and require user interaction to complete
 - Windows Updates may require a system restart
