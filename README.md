@@ -50,7 +50,11 @@ A comprehensive batch script for Windows that provides a menu-driven interface t
 
 ### Windows Updates
 - Uses PowerShell and the PSWindowsUpdate module
-- Automatically installs the module if not present
+- Automatically installs the module if not present with enhanced reliability:
+  - Uses TLS 1.2 for secure downloads
+  - Bypasses execution policy restrictions
+  - Installs to current user scope (no admin needed for module installation)
+  - Includes comprehensive error handling
 - Scans for available updates and allows you to review before installing
 - Supports automatic reboot if required
 - Shows step-by-step progress (Step 1/3, Step 2/3, Step 3/3)
