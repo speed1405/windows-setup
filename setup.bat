@@ -47,7 +47,7 @@ echo Checking for administrator privileges...
 
 :: Check for admin rights
 net session >nul 2>&1
-if !errorLevel! neq 0 (
+if !errorlevel! neq 0 (
     echo ERROR: This option requires administrator privileges.
     echo Please run this script as Administrator.
     echo.
@@ -172,7 +172,7 @@ powershell -Command "Invoke-WebRequest -Uri 'https://launcher-public-service-pro
 if exist "%TEMP_DIR%\EpicGamesLauncherInstaller.msi" (
     echo.
     echo Running Epic Games Launcher installer...
-    start /wait msiexec /i "%TEMP_DIR%\EpicGamesLauncherInstaller.msi" /quiet
+    start /wait msiexec /i "%TEMP_DIR%\EpicGamesLauncherInstaller.msi"
     echo.
     echo Epic Games Launcher installation completed.
 ) else (
