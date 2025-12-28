@@ -24,7 +24,22 @@ if !errorlevel! neq 0 (
 echo Starting Windows Update...
 echo.
 echo [Step 1/3] Installing PSWindowsUpdate module if not present...
-powershell -ExecutionPolicy Bypass -Command "try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; if (!(Get-Module -ListAvailable -Name PSWindowsUpdate)) { Write-Host 'Installing module...' -ForegroundColor Yellow; Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -ErrorAction Stop | Out-Null; Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted -ErrorAction Stop; Install-Module -Name PSWindowsUpdate -Force -Scope CurrentUser -AllowClobber -ErrorAction Stop; Write-Host 'Module installed successfully!' -ForegroundColor Green } else { Write-Host 'Module already installed' -ForegroundColor Green } } catch { Write-Host \"ERROR: Failed to install PSWindowsUpdate module: $_\" -ForegroundColor Red; exit 1 }"
+powershell -ExecutionPolicy Bypass -Command ^
+"try { ^
+  [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; ^
+  if (!(Get-Module -ListAvailable -Name PSWindowsUpdate)) { ^
+    Write-Host 'Installing module...' -ForegroundColor Yellow; ^
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -ErrorAction Stop | Out-Null; ^
+    Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted -ErrorAction Stop; ^
+    Install-Module -Name PSWindowsUpdate -Force -Scope CurrentUser -AllowClobber -ErrorAction Stop; ^
+    Write-Host 'Module installed successfully!' -ForegroundColor Green ^
+  } else { ^
+    Write-Host 'Module already installed' -ForegroundColor Green ^
+  } ^
+} catch { ^
+  Write-Host \"ERROR: Failed to install PSWindowsUpdate module: $_\" -ForegroundColor Red; ^
+  exit 1 ^
+}"
 
 if !errorlevel! neq 0 (
     echo.
