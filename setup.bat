@@ -41,7 +41,7 @@ cls
 echo Launching Windows Update script...
 echo.
 if exist "%~dp0windows-update.bat" (
-    call "%~dp0windows-update.bat"
+    call "%~dp0windows-update.bat" ALREADY_ELEVATED
 ) else (
     echo ERROR: windows-update.bat not found in the same directory.
     echo.
@@ -54,7 +54,7 @@ cls
 echo Launching Gaming Platforms Setup script...
 echo.
 if exist "%~dp0gaming-setup.bat" (
-    call "%~dp0gaming-setup.bat"
+    call "%~dp0gaming-setup.bat" ALREADY_ELEVATED
 ) else (
     echo ERROR: gaming-setup.bat not found in the same directory.
     echo.
