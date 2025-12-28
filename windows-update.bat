@@ -31,7 +31,7 @@ powershell -ExecutionPolicy Bypass -Command ^
     Write-Host 'Installing module...' -ForegroundColor Yellow; ^
     Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -ErrorAction Stop | Out-Null; ^
     Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted -ErrorAction Stop; ^
-    Install-Module -Name PSWindowsUpdate -Force -Scope CurrentUser -AllowClobber -ErrorAction Stop; ^
+    Install-Module -Name PSWindowsUpdate -Force -Scope CurrentUser -AllowClobber -SkipPublisherCheck -ErrorAction Stop; ^
     Write-Host 'Module installed successfully!' -ForegroundColor Green ^
   } else { ^
     Write-Host 'Module already installed' -ForegroundColor Green ^
