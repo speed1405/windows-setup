@@ -102,19 +102,22 @@ if %errorlevel% neq 0 (
 
 echo.
 set /p confirm="Do you want to install these updates? (Y/N): "
-if /i "%confirm%"=="Y" (
-    echo [Step 3/3] Installing updates... This may take a while.
-    powershell -ExecutionPolicy Bypass -Command "Import-Module PSWindowsUpdate; Install-WindowsUpdate -AcceptAll -AutoReboot"
-    if !errorlevel! neq 0 (
-        echo.
-        echo ERROR: Failed to install updates. Please check the error messages above.
-        echo.
-    ) else (
-        echo.
-        echo Updates installed successfully.
-    )
-) else (
+if /i not "%confirm%"=="Y" (
     echo Update installation cancelled.
+    echo.
+    pause
+    goto MENU
+)
+
+echo [Step 3/3] Installing updates... This may take a while.
+powershell -ExecutionPolicy Bypass -Command "Import-Module PSWindowsUpdate; Install-WindowsUpdate -AcceptAll -AutoReboot"
+
+if %errorlevel% neq 0 (
+    echo.
+    echo ERROR: Failed to install updates. Please check the error messages above.
+) else (
+    echo.
+    echo Updates installed successfully.
 )
 
 echo.
