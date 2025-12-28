@@ -53,12 +53,15 @@ A comprehensive batch script for Windows that provides a menu-driven interface t
 - Automatically installs the module if not present
 - Scans for available updates and allows you to review before installing
 - Supports automatic reboot if required
+- Shows step-by-step progress (Step 1/3, Step 2/3, Step 3/3)
 
 ### Gaming Platform Installations
 - Downloads official installers from vendor websites
+- **Real-time progress bars** showing download progress with file sizes
 - Stores installers temporarily in `%TEMP%\WindowsSetup`
 - Launches installers for user to complete
 - Provides feedback on download and installation status
+- Color-coded status messages (Green for success, Yellow for in-progress)
 
 ## Notes
 

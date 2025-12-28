@@ -57,17 +57,17 @@ if !errorlevel! neq 0 (
 
 echo Starting Windows Update...
 echo.
-echo Installing PSWindowsUpdate module if not present...
-powershell -Command "if (!(Get-Module -ListAvailable -Name PSWindowsUpdate)) { Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force; Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted; Install-Module -Name PSWindowsUpdate -Force }"
+echo [Step 1/3] Installing PSWindowsUpdate module if not present...
+powershell -Command "if (!(Get-Module -ListAvailable -Name PSWindowsUpdate)) { Write-Host 'Installing module...' -ForegroundColor Yellow; Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force; Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted; Install-Module -Name PSWindowsUpdate -Force; Write-Host 'Module installed successfully!' -ForegroundColor Green } else { Write-Host 'Module already installed' -ForegroundColor Green }"
 
 echo.
-echo Scanning for updates...
+echo [Step 2/3] Scanning for updates...
 powershell -Command "Import-Module PSWindowsUpdate; Get-WindowsUpdate"
 
 echo.
 set /p confirm="Do you want to install these updates? (Y/N): "
 if /i "%confirm%"=="Y" (
-    echo Installing updates... This may take a while.
+    echo [Step 3/3] Installing updates... This may take a while.
     powershell -Command "Import-Module PSWindowsUpdate; Install-WindowsUpdate -AcceptAll -AutoReboot"
     echo.
     echo Updates installed successfully.
@@ -89,7 +89,7 @@ set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
 
 echo Downloading Steam installer...
-powershell -Command "Invoke-WebRequest -Uri 'https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe' -OutFile '%TEMP_DIR%\SteamSetup.exe'"
+powershell -Command "& {$url='https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe'; $output='%TEMP_DIR%\SteamSetup.exe'; Write-Host ''; $wc=New-Object System.Net.WebClient; $wc.DownloadProgressChanged={param($s,$e) Write-Progress -Activity 'Downloading Steam' -Status ('{0:N0} KB / {1:N0} KB' -f ($e.BytesReceived/1KB),($e.TotalBytesToReceive/1KB)) -PercentComplete $e.ProgressPercentage}; $wc.DownloadFileCompleted={param($s,$e) Write-Progress -Activity 'Downloading Steam' -Completed}; $wc.DownloadFileAsync($url,$output); while($wc.IsBusy){Start-Sleep -Milliseconds 100}; Write-Host 'Download complete!' -ForegroundColor Green}"
 
 if exist "%TEMP_DIR%\SteamSetup.exe" (
     echo.
@@ -115,7 +115,7 @@ set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
 
 echo Downloading Ubisoft Connect installer...
-powershell -Command "Invoke-WebRequest -Uri 'https://ubistatic3-a.akamaihd.net/orbit/launcher_installer/UbisoftConnectInstaller.exe' -OutFile '%TEMP_DIR%\UbisoftConnectInstaller.exe'"
+powershell -Command "& {$url='https://ubistatic3-a.akamaihd.net/orbit/launcher_installer/UbisoftConnectInstaller.exe'; $output='%TEMP_DIR%\UbisoftConnectInstaller.exe'; Write-Host ''; $wc=New-Object System.Net.WebClient; $wc.DownloadProgressChanged={param($s,$e) Write-Progress -Activity 'Downloading Ubisoft Connect' -Status ('{0:N0} KB / {1:N0} KB' -f ($e.BytesReceived/1KB),($e.TotalBytesToReceive/1KB)) -PercentComplete $e.ProgressPercentage}; $wc.DownloadFileCompleted={param($s,$e) Write-Progress -Activity 'Downloading Ubisoft Connect' -Completed}; $wc.DownloadFileAsync($url,$output); while($wc.IsBusy){Start-Sleep -Milliseconds 100}; Write-Host 'Download complete!' -ForegroundColor Green}"
 
 if exist "%TEMP_DIR%\UbisoftConnectInstaller.exe" (
     echo.
@@ -141,7 +141,7 @@ set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
 
 echo Downloading GOG Galaxy installer...
-powershell -Command "Invoke-WebRequest -Uri 'https://webinstallers.gog-statics.com/download/GOG_Galaxy_2.0.exe' -OutFile '%TEMP_DIR%\GOGGalaxySetup.exe'"
+powershell -Command "& {$url='https://webinstallers.gog-statics.com/download/GOG_Galaxy_2.0.exe'; $output='%TEMP_DIR%\GOGGalaxySetup.exe'; Write-Host ''; $wc=New-Object System.Net.WebClient; $wc.DownloadProgressChanged={param($s,$e) Write-Progress -Activity 'Downloading GOG Galaxy' -Status ('{0:N0} KB / {1:N0} KB' -f ($e.BytesReceived/1KB),($e.TotalBytesToReceive/1KB)) -PercentComplete $e.ProgressPercentage}; $wc.DownloadFileCompleted={param($s,$e) Write-Progress -Activity 'Downloading GOG Galaxy' -Completed}; $wc.DownloadFileAsync($url,$output); while($wc.IsBusy){Start-Sleep -Milliseconds 100}; Write-Host 'Download complete!' -ForegroundColor Green}"
 
 if exist "%TEMP_DIR%\GOGGalaxySetup.exe" (
     echo.
@@ -167,7 +167,7 @@ set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
 
 echo Downloading Epic Games Launcher installer...
-powershell -Command "Invoke-WebRequest -Uri 'https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi' -OutFile '%TEMP_DIR%\EpicGamesLauncherInstaller.msi'"
+powershell -Command "& {$url='https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi'; $output='%TEMP_DIR%\EpicGamesLauncherInstaller.msi'; Write-Host ''; $wc=New-Object System.Net.WebClient; $wc.DownloadProgressChanged={param($s,$e) Write-Progress -Activity 'Downloading Epic Games Launcher' -Status ('{0:N0} KB / {1:N0} KB' -f ($e.BytesReceived/1KB),($e.TotalBytesToReceive/1KB)) -PercentComplete $e.ProgressPercentage}; $wc.DownloadFileCompleted={param($s,$e) Write-Progress -Activity 'Downloading Epic Games Launcher' -Completed}; $wc.DownloadFileAsync($url,$output); while($wc.IsBusy){Start-Sleep -Milliseconds 100}; Write-Host 'Download complete!' -ForegroundColor Green}"
 
 if exist "%TEMP_DIR%\EpicGamesLauncherInstaller.msi" (
     echo.
@@ -193,7 +193,7 @@ set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
 
 echo Downloading Battle.net installer...
-powershell -Command "Invoke-WebRequest -Uri 'https://downloader.battle.net/download/getInstallerForGame?os=win&gameProgram=BATTLENET_APP&version=Live' -OutFile '%TEMP_DIR%\BattleNetSetup.exe'"
+powershell -Command "& {$url='https://downloader.battle.net/download/getInstallerForGame?os=win&gameProgram=BATTLENET_APP&version=Live'; $output='%TEMP_DIR%\BattleNetSetup.exe'; Write-Host ''; $wc=New-Object System.Net.WebClient; $wc.DownloadProgressChanged={param($s,$e) Write-Progress -Activity 'Downloading Battle.net' -Status ('{0:N0} KB / {1:N0} KB' -f ($e.BytesReceived/1KB),($e.TotalBytesToReceive/1KB)) -PercentComplete $e.ProgressPercentage}; $wc.DownloadFileCompleted={param($s,$e) Write-Progress -Activity 'Downloading Battle.net' -Completed}; $wc.DownloadFileAsync($url,$output); while($wc.IsBusy){Start-Sleep -Milliseconds 100}; Write-Host 'Download complete!' -ForegroundColor Green}"
 
 if exist "%TEMP_DIR%\BattleNetSetup.exe" (
     echo.
@@ -219,7 +219,7 @@ set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
 
 echo Downloading EA App installer...
-powershell -Command "Invoke-WebRequest -Uri 'https://origin-a.akamaihd.net/EA-Desktop-Client-Download/installer-releases/EAappInstaller.exe' -OutFile '%TEMP_DIR%\EAappInstaller.exe'"
+powershell -Command "& {$url='https://origin-a.akamaihd.net/EA-Desktop-Client-Download/installer-releases/EAappInstaller.exe'; $output='%TEMP_DIR%\EAappInstaller.exe'; Write-Host ''; $wc=New-Object System.Net.WebClient; $wc.DownloadProgressChanged={param($s,$e) Write-Progress -Activity 'Downloading EA App' -Status ('{0:N0} KB / {1:N0} KB' -f ($e.BytesReceived/1KB),($e.TotalBytesToReceive/1KB)) -PercentComplete $e.ProgressPercentage}; $wc.DownloadFileCompleted={param($s,$e) Write-Progress -Activity 'Downloading EA App' -Completed}; $wc.DownloadFileAsync($url,$output); while($wc.IsBusy){Start-Sleep -Milliseconds 100}; Write-Host 'Download complete!' -ForegroundColor Green}"
 
 if exist "%TEMP_DIR%\EAappInstaller.exe" (
     echo.
@@ -273,7 +273,7 @@ goto MENU
 echo [1/6] Installing Steam...
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
-powershell -Command "Invoke-WebRequest -Uri 'https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe' -OutFile '%TEMP_DIR%\SteamSetup.exe'"
+powershell -Command "& {$ProgressPreference='SilentlyContinue'; $url='https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe'; $output='%TEMP_DIR%\SteamSetup.exe'; $wc=New-Object System.Net.WebClient; $wc.DownloadFile($url,$output); Write-Host 'Steam download complete' -ForegroundColor Green}"
 if exist "%TEMP_DIR%\SteamSetup.exe" (start "%TEMP_DIR%\SteamSetup.exe") else (echo Failed to download Steam installer.)
 goto :eof
 
@@ -281,7 +281,7 @@ goto :eof
 echo [2/6] Installing Ubisoft Connect...
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
-powershell -Command "Invoke-WebRequest -Uri 'https://ubistatic3-a.akamaihd.net/orbit/launcher_installer/UbisoftConnectInstaller.exe' -OutFile '%TEMP_DIR%\UbisoftConnectInstaller.exe'"
+powershell -Command "& {$ProgressPreference='SilentlyContinue'; $url='https://ubistatic3-a.akamaihd.net/orbit/launcher_installer/UbisoftConnectInstaller.exe'; $output='%TEMP_DIR%\UbisoftConnectInstaller.exe'; $wc=New-Object System.Net.WebClient; $wc.DownloadFile($url,$output); Write-Host 'Ubisoft Connect download complete' -ForegroundColor Green}"
 if exist "%TEMP_DIR%\UbisoftConnectInstaller.exe" (start "%TEMP_DIR%\UbisoftConnectInstaller.exe") else (echo Failed to download Ubisoft Connect installer.)
 goto :eof
 
@@ -289,7 +289,7 @@ goto :eof
 echo [3/6] Installing GOG Galaxy...
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
-powershell -Command "Invoke-WebRequest -Uri 'https://webinstallers.gog-statics.com/download/GOG_Galaxy_2.0.exe' -OutFile '%TEMP_DIR%\GOGGalaxySetup.exe'"
+powershell -Command "& {$ProgressPreference='SilentlyContinue'; $url='https://webinstallers.gog-statics.com/download/GOG_Galaxy_2.0.exe'; $output='%TEMP_DIR%\GOGGalaxySetup.exe'; $wc=New-Object System.Net.WebClient; $wc.DownloadFile($url,$output); Write-Host 'GOG Galaxy download complete' -ForegroundColor Green}"
 if exist "%TEMP_DIR%\GOGGalaxySetup.exe" (start "%TEMP_DIR%\GOGGalaxySetup.exe") else (echo Failed to download GOG Galaxy installer.)
 goto :eof
 
@@ -297,7 +297,7 @@ goto :eof
 echo [4/6] Installing Epic Games Launcher...
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
-powershell -Command "Invoke-WebRequest -Uri 'https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi' -OutFile '%TEMP_DIR%\EpicGamesLauncherInstaller.msi'"
+powershell -Command "& {$ProgressPreference='SilentlyContinue'; $url='https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi'; $output='%TEMP_DIR%\EpicGamesLauncherInstaller.msi'; $wc=New-Object System.Net.WebClient; $wc.DownloadFile($url,$output); Write-Host 'Epic Games Launcher download complete' -ForegroundColor Green}"
 if exist "%TEMP_DIR%\EpicGamesLauncherInstaller.msi" (start msiexec /i "%TEMP_DIR%\EpicGamesLauncherInstaller.msi") else (echo Failed to download Epic Games Launcher installer.)
 goto :eof
 
@@ -305,7 +305,7 @@ goto :eof
 echo [5/6] Installing Battle.net...
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
-powershell -Command "Invoke-WebRequest -Uri 'https://downloader.battle.net/download/getInstallerForGame?os=win&gameProgram=BATTLENET_APP&version=Live' -OutFile '%TEMP_DIR%\BattleNetSetup.exe'"
+powershell -Command "& {$ProgressPreference='SilentlyContinue'; $url='https://downloader.battle.net/download/getInstallerForGame?os=win&gameProgram=BATTLENET_APP&version=Live'; $output='%TEMP_DIR%\BattleNetSetup.exe'; $wc=New-Object System.Net.WebClient; $wc.DownloadFile($url,$output); Write-Host 'Battle.net download complete' -ForegroundColor Green}"
 if exist "%TEMP_DIR%\BattleNetSetup.exe" (start "%TEMP_DIR%\BattleNetSetup.exe") else (echo Failed to download Battle.net installer.)
 goto :eof
 
@@ -313,7 +313,7 @@ goto :eof
 echo [6/6] Installing EA App...
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
-powershell -Command "Invoke-WebRequest -Uri 'https://origin-a.akamaihd.net/EA-Desktop-Client-Download/installer-releases/EAappInstaller.exe' -OutFile '%TEMP_DIR%\EAappInstaller.exe'"
+powershell -Command "& {$ProgressPreference='SilentlyContinue'; $url='https://origin-a.akamaihd.net/EA-Desktop-Client-Download/installer-releases/EAappInstaller.exe'; $output='%TEMP_DIR%\EAappInstaller.exe'; $wc=New-Object System.Net.WebClient; $wc.DownloadFile($url,$output); Write-Host 'EA App download complete' -ForegroundColor Green}"
 if exist "%TEMP_DIR%\EAappInstaller.exe" (start "%TEMP_DIR%\EAappInstaller.exe") else (echo Failed to download EA App installer.)
 goto :eof
 
