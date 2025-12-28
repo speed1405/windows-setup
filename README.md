@@ -1,11 +1,11 @@
 # Windows Setup Script
 
-A comprehensive set of batch scripts for Windows that provides automated Windows updates and gaming platform installations, now separated for better organization.
+A unified batch script for Windows that provides automated Windows updates and gaming platform installations in one convenient menu.
 
 ## Features
 
-- **Windows Updates**: Automatically check and install Windows updates using PowerShell (in `windows-update.bat`)
-- **Gaming Platform Installation**: Easy installation of popular gaming platforms (in `gaming-setup.bat`):
+- **Windows Updates**: Automatically check and install Windows updates using PowerShell
+- **Gaming Platform Installation**: Easy installation of popular gaming platforms:
   - Steam
   - Ubisoft Connect
   - GOG Galaxy
@@ -13,14 +13,12 @@ A comprehensive set of batch scripts for Windows that provides automated Windows
   - Battle.net
   - EA App
 - **Batch Installation**: Install all gaming platforms at once
-- **User-friendly Menu**: Simple numbered menu system for easy navigation
-- **Modular Design**: Separate scripts for different purposes - run them independently or through the main launcher
+- **User-friendly Menu**: Simple numbered menu system with all options in one place
+- **Unified Design**: Single script with organized sections for system updates and gaming platforms
 
 ## Files
 
-- **`setup.bat`** - Main launcher that provides a menu to run Windows Update or Gaming Platform setup
-- **`windows-update.bat`** - Standalone script for Windows updates (can be run directly)
-- **`gaming-setup.bat`** - Standalone script for gaming platform installations (can be run directly)
+- **`setup.bat`** - Unified script containing Windows Update and Gaming Platform installation options
 
 ## Requirements
 
@@ -30,42 +28,29 @@ A comprehensive set of batch scripts for Windows that provides automated Windows
 
 ## Usage
 
-### Option 1: Using the Main Launcher
-1. Download all three files: `setup.bat`, `windows-update.bat`, and `gaming-setup.bat`
-2. Place them in the same directory
-3. Run `setup.bat`:
-   - Simply double-click `setup.bat` (will automatically request admin privileges)
-   - Choose option 1 for Windows Updates or option 2 for Gaming Platforms
-
-### Option 2: Running Scripts Directly
-- **For Windows Updates**: Double-click `windows-update.bat` (will automatically request admin privileges)
-- **For Gaming Platforms**: Double-click `gaming-setup.bat` (will automatically request admin privileges)
+1. Download `setup.bat`
+2. Double-click `setup.bat` (will automatically request admin privileges)
+3. Select from the menu:
+   - System updates (Windows Update)
+   - Individual gaming platform installations
+   - Install all gaming platforms at once
 
 ## Menu Options
 
-### Main Launcher (setup.bat)
 ```
-1. Run Windows Updates     - Launch Windows Update script
-2. Install Gaming Platforms - Launch Gaming Platforms setup
-3. Exit                     - Exit the launcher
-```
+SYSTEM UPDATES:
+1. Run Windows Updates         - Check and install Windows updates
 
-### Windows Update (windows-update.bat)
-- Automatically installs PSWindowsUpdate module if needed
-- Scans for available updates
-- Allows you to review updates before installing
-- Supports automatic reboot if required
+GAMING PLATFORMS:
+2. Install Steam               - Download and install Steam client
+3. Install Ubisoft Connect     - Download and install Ubisoft Connect
+4. Install GOG Galaxy          - Download and install GOG Galaxy
+5. Install Epic Games Launcher - Download and install Epic Games Launcher
+6. Install Battle.net          - Download and install Battle.net
+7. Install EA App              - Download and install EA App
+8. Install All Gaming Platforms - Install all gaming platforms at once
 
-### Gaming Platforms (gaming-setup.bat)
-```
-1. Install Steam              - Download and install Steam client
-2. Install Ubisoft Connect    - Download and install Ubisoft Connect
-3. Install GOG Galaxy         - Download and install GOG Galaxy
-4. Install Epic Games Launcher - Download and install Epic Games Launcher
-5. Install Battle.net         - Download and install Battle.net
-6. Install EA App             - Download and install EA App
-7. Install All Gaming Platforms - Install all gaming platforms at once
-8. Exit                       - Exit the script
+9. Exit                        - Exit the script
 ```
 
 ## How It Works
@@ -91,8 +76,7 @@ A comprehensive set of batch scripts for Windows that provides automated Windows
 
 ## Notes
 
-- All scripts automatically request administrator privileges when needed
-- Scripts can be run independently or through the main launcher
+- The script automatically requests administrator privileges when needed
 - Gaming platform installers will open and require user interaction to complete
 - Windows Updates may require a system restart
 - Internet connection is required for all downloads
