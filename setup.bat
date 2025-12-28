@@ -45,7 +45,7 @@ echo Checking for administrator privileges...
 
 :: Check for admin rights
 net session >nul 2>&1
-if %errorLevel% neq 0 (
+if !errorLevel! neq 0 (
     echo ERROR: This option requires administrator privileges.
     echo Please run this script as Administrator.
     echo.
@@ -244,40 +244,40 @@ goto MENU
 echo [1/5] Installing Steam...
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
-powershell -Command "Invoke-WebRequest -Uri 'https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe' -OutFile '%TEMP_DIR%\SteamSetup.exe'" 2>nul
-if exist "%TEMP_DIR%\SteamSetup.exe" start "%TEMP_DIR%\SteamSetup.exe"
+powershell -Command "Invoke-WebRequest -Uri 'https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe' -OutFile '%TEMP_DIR%\SteamSetup.exe'"
+if exist "%TEMP_DIR%\SteamSetup.exe" (start "%TEMP_DIR%\SteamSetup.exe") else (echo Failed to download Steam installer.)
 goto :eof
 
 :INSTALL_UBISOFT_SILENT
 echo [2/5] Installing Ubisoft Connect...
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
-powershell -Command "Invoke-WebRequest -Uri 'https://ubistatic3-a.akamaihd.net/orbit/launcher_installer/UbisoftConnectInstaller.exe' -OutFile '%TEMP_DIR%\UbisoftConnectInstaller.exe'" 2>nul
-if exist "%TEMP_DIR%\UbisoftConnectInstaller.exe" start "%TEMP_DIR%\UbisoftConnectInstaller.exe"
+powershell -Command "Invoke-WebRequest -Uri 'https://ubistatic3-a.akamaihd.net/orbit/launcher_installer/UbisoftConnectInstaller.exe' -OutFile '%TEMP_DIR%\UbisoftConnectInstaller.exe'"
+if exist "%TEMP_DIR%\UbisoftConnectInstaller.exe" (start "%TEMP_DIR%\UbisoftConnectInstaller.exe") else (echo Failed to download Ubisoft Connect installer.)
 goto :eof
 
 :INSTALL_GOG_SILENT
 echo [3/5] Installing GOG Galaxy...
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
-powershell -Command "Invoke-WebRequest -Uri 'https://webinstallers.gog-statics.com/download/GOG_Galaxy_2.0.exe' -OutFile '%TEMP_DIR%\GOGGalaxySetup.exe'" 2>nul
-if exist "%TEMP_DIR%\GOGGalaxySetup.exe" start "%TEMP_DIR%\GOGGalaxySetup.exe"
+powershell -Command "Invoke-WebRequest -Uri 'https://webinstallers.gog-statics.com/download/GOG_Galaxy_2.0.exe' -OutFile '%TEMP_DIR%\GOGGalaxySetup.exe'"
+if exist "%TEMP_DIR%\GOGGalaxySetup.exe" (start "%TEMP_DIR%\GOGGalaxySetup.exe") else (echo Failed to download GOG Galaxy installer.)
 goto :eof
 
 :INSTALL_EPIC_SILENT
 echo [4/5] Installing Epic Games Launcher...
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
-powershell -Command "Invoke-WebRequest -Uri 'https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi' -OutFile '%TEMP_DIR%\EpicGamesLauncherInstaller.msi'" 2>nul
-if exist "%TEMP_DIR%\EpicGamesLauncherInstaller.msi" start msiexec /i "%TEMP_DIR%\EpicGamesLauncherInstaller.msi"
+powershell -Command "Invoke-WebRequest -Uri 'https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi' -OutFile '%TEMP_DIR%\EpicGamesLauncherInstaller.msi'"
+if exist "%TEMP_DIR%\EpicGamesLauncherInstaller.msi" (start msiexec /i "%TEMP_DIR%\EpicGamesLauncherInstaller.msi") else (echo Failed to download Epic Games Launcher installer.)
 goto :eof
 
 :INSTALL_BATTLENET_SILENT
 echo [5/5] Installing Battle.net...
 set "TEMP_DIR=%TEMP%\WindowsSetup"
 if not exist "%TEMP_DIR%" mkdir "%TEMP_DIR%"
-powershell -Command "Invoke-WebRequest -Uri 'https://downloader.battle.net/download/getInstallerForGame?os=win&gameProgram=BATTLENET_APP&version=Live' -OutFile '%TEMP_DIR%\BattleNetSetup.exe'" 2>nul
-if exist "%TEMP_DIR%\BattleNetSetup.exe" start "%TEMP_DIR%\BattleNetSetup.exe"
+powershell -Command "Invoke-WebRequest -Uri 'https://downloader.battle.net/download/getInstallerForGame?os=win&gameProgram=BATTLENET_APP&version=Live' -OutFile '%TEMP_DIR%\BattleNetSetup.exe'"
+if exist "%TEMP_DIR%\BattleNetSetup.exe" (start "%TEMP_DIR%\BattleNetSetup.exe") else (echo Failed to download Battle.net installer.)
 goto :eof
 
 :EXIT
