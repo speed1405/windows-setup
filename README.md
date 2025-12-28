@@ -11,6 +11,7 @@ A comprehensive batch script for Windows that provides a menu-driven interface t
   - GOG Galaxy
   - Epic Games Launcher
   - Battle.net
+  - EA App
 - **Batch Installation**: Install all gaming platforms at once
 - **User-friendly Menu**: Simple numbered menu system for easy navigation
 
@@ -40,8 +41,9 @@ A comprehensive batch script for Windows that provides a menu-driven interface t
 4. Install GOG Galaxy         - Download and install GOG Galaxy
 5. Install Epic Games Launcher - Download and install Epic Games Launcher
 6. Install Battle.net         - Download and install Battle.net
-7. Install All Gaming Platforms - Install all gaming platforms at once
-8. Exit                       - Exit the script
+7. Install EA App             - Download and install EA App
+8. Install All Gaming Platforms - Install all gaming platforms at once
+9. Exit                       - Exit the script
 ```
 
 ## How It Works
