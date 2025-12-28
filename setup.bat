@@ -92,15 +92,32 @@ echo.
 echo [Step 2/3] Scanning for updates...
 powershell -ExecutionPolicy Bypass -Command "Import-Module PSWindowsUpdate; Get-WindowsUpdate"
 
+if %errorlevel% neq 0 (
+    echo.
+    echo ERROR: Failed to scan for updates. Please ensure the PSWindowsUpdate module is properly installed.
+    echo.
+    pause
+    goto MENU
+)
+
 echo.
 set /p confirm="Do you want to install these updates? (Y/N): "
-if /i "%confirm%"=="Y" (
-    echo [Step 3/3] Installing updates... This may take a while.
-    powershell -ExecutionPolicy Bypass -Command "Import-Module PSWindowsUpdate; Install-WindowsUpdate -AcceptAll -AutoReboot"
+if /i not "%confirm%"=="Y" (
+    echo Update installation cancelled.
+    echo.
+    pause
+    goto MENU
+)
+
+echo [Step 3/3] Installing updates... This may take a while.
+powershell -ExecutionPolicy Bypass -Command "Import-Module PSWindowsUpdate; Install-WindowsUpdate -AcceptAll -AutoReboot"
+
+if %errorlevel% neq 0 (
+    echo.
+    echo ERROR: Failed to install updates. Please check the error messages above.
+) else (
     echo.
     echo Updates installed successfully.
-) else (
-    echo Update installation cancelled.
 )
 
 echo.
