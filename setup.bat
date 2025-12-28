@@ -58,17 +58,27 @@ if !errorlevel! neq 0 (
 echo Starting Windows Update...
 echo.
 echo [Step 1/3] Installing PSWindowsUpdate module if not present...
-powershell -Command "if (!(Get-Module -ListAvailable -Name PSWindowsUpdate)) { Write-Host 'Installing module...' -ForegroundColor Yellow; Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force; Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted; Install-Module -Name PSWindowsUpdate -Force; Write-Host 'Module installed successfully!' -ForegroundColor Green } else { Write-Host 'Module already installed' -ForegroundColor Green }"
+powershell -ExecutionPolicy Bypass -Command "try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; if (!(Get-Module -ListAvailable -Name PSWindowsUpdate)) { Write-Host 'Installing module...' -ForegroundColor Yellow; Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -ErrorAction Stop | Out-Null; Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted -ErrorAction Stop; Install-Module -Name PSWindowsUpdate -Force -Scope CurrentUser -AllowClobber -ErrorAction Stop; Write-Host 'Module installed successfully!' -ForegroundColor Green } else { Write-Host 'Module already installed' -ForegroundColor Green } } catch { Write-Host \"ERROR: Failed to install PSWindowsUpdate module: $_\" -ForegroundColor Red; exit 1 }"
+
+if !errorlevel! neq 0 (
+    echo.
+    echo Module installation failed. Please check your internet connection and try again.
+    echo You may need to run PowerShell as Administrator and manually install the module:
+    echo   Install-Module -Name PSWindowsUpdate -Force -Scope CurrentUser
+    echo.
+    pause
+    goto MENU
+)
 
 echo.
 echo [Step 2/3] Scanning for updates...
-powershell -Command "Import-Module PSWindowsUpdate; Get-WindowsUpdate"
+powershell -ExecutionPolicy Bypass -Command "Import-Module PSWindowsUpdate; Get-WindowsUpdate"
 
 echo.
 set /p confirm="Do you want to install these updates? (Y/N): "
 if /i "%confirm%"=="Y" (
     echo [Step 3/3] Installing updates... This may take a while.
-    powershell -Command "Import-Module PSWindowsUpdate; Install-WindowsUpdate -AcceptAll -AutoReboot"
+    powershell -ExecutionPolicy Bypass -Command "Import-Module PSWindowsUpdate; Install-WindowsUpdate -AcceptAll -AutoReboot"
     echo.
     echo Updates installed successfully.
 ) else (
