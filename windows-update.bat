@@ -11,14 +11,16 @@ echo ============================================
 echo.
 echo Checking for administrator privileges...
 
-:: Check for admin rights
+:: Check for admin rights and auto-elevate if needed
 net session >nul 2>&1
-if !errorlevel! neq 0 (
-    echo ERROR: This script requires administrator privileges.
-    echo Please run this script as Administrator.
+if %errorlevel% neq 0 (
+    echo This script requires administrator privileges.
+    echo Requesting elevation...
     echo.
-    pause
-    exit /b 1
+    
+    :: Re-launch the script with admin rights
+    powershell -Command "Start-Process -FilePath '%~f0' -Verb RunAs"
+    exit /b 0
 )
 
 echo Starting Windows Update...
@@ -41,7 +43,7 @@ powershell -ExecutionPolicy Bypass -Command ^
   exit 1 ^
 }"
 
-if !errorlevel! neq 0 (
+if %errorlevel% neq 0 (
     echo.
     echo Module installation failed. Please check your internet connection and try again.
     echo You may need to run PowerShell as Administrator and manually install the module:
